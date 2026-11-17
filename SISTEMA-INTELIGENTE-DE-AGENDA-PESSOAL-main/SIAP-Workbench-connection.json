@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "connectionTags": {},
+    "connections": [
+        {
+            "dbType": "MySQL",
+            "caption": "SIAP - Banco local",
+            "description": "A new Database Connection",
+            "options": {
+                "scheme": "mysql",
+                "host": "127.0.0.1",
+                "port": 3306,
+                "user": "siap_app",
+                "schema": "siap_db",
+                "ssl-mode": "PREFERRED",
+                "compression-level": 3,
+                "connect-timeout": 15000
+            },
+            "folderPath": "/",
+            "useSSH": false,
+            "useMHS": false,
+            "settings": {
+                "authenticationHints": {
+                    "factors": [
+                        "password"
+                    ]
+                }
+            },
+            "tags": []
+        }
+    ]
+}

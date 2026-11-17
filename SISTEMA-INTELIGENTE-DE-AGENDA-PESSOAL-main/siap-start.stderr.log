@@ -1,0 +1,2 @@
+C:\Users\Administrador\Documents\UNA\SIAP\server.py:367: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  expires_at = datetime.utcnow() + timedelta(days=SESSION_DAYS)
