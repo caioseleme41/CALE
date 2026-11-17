@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6f7bf7">
+<script>try{if(localStorage.getItem('cale_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(error){}</script>
+<title>CALÊ — Sua agenda inteligente</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="loading-screen" id="loadingScreen" role="region" aria-label="Tela inicial do CALÊ">
+  <div class="loading-content" id="loadingContent">
+    <img class="loading-logo" src="./logo-cale.png" data-logo-light="./logo-cale.png" data-logo-dark="./logo-cale-dark.png" alt="Logo CALÊ: calendário com check">
+    
+    <p id="loadingMessage" role="status" aria-live="polite">Preparando sua agenda</p>
+    <div class="loading-track" aria-hidden="true"><span></span></div>
+    <button class="loading-enter hidden" id="enterApp" type="button">Entrar no CALÊ</button>
+    <small class="hidden" id="enterHint">Clique em qualquer lugar para continuar</small>
+  </div>
+</div>
+<div class="app" inert>
+<aside class="sidebar">
+  <div class="brand"><img class="brand-logo" src="./logo-cale.png" data-logo-light="./logo-cale.png" data-logo-dark="./logo-cale-dark.png" alt="Logo CALÊ: calendário com check"></div>
+  <div class="nav-label">MENU PRINCIPAL</div>
+  <nav class="nav">
+    <button class="active" data-view="home"><span class="ico">⌂</span>Início</button>
+    <button data-view="calendar"><span class="ico">▦</span>Calendário</button>
+    <button data-view="assistant"><span class="ico">✧</span>Cacá</button>
+    <button data-view="stats"><span class="ico">▥</span>Estatísticas</button>
+    <button data-view="account"><span class="ico">♙</span>Minha conta</button>
+  </nav>
+  <div class="sidebar-bottom"><div class="tip"><b>✦ Dica do dia</b><p>Pequenos passos todos os dias levam a grandes resultados.</p></div><div class="sidebar-foot">Protótipo acadêmico · CALÊ</div></div>
+</aside>
+<main>
+<header class="topbar"><div><div class="eyebrow" id="todayLabel">SUA ROTINA, EM UM SÓ LUGAR</div><h1 id="pageTitle">Seu dia em foco <span>✦</span></h1></div><div class="top-actions"><button class="circle-btn" id="searchBtn" title="Ir para adicionar tarefa">⌕</button><button class="theme-toggle" id="themeToggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false" title="Ativar modo escuro"><svg class="theme-icon sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="theme-icon moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.3A8.5 8.5 0 0 1 8.7 3.8a8.5 8.5 0 1 0 11.5 11.5Z"/></svg></button><div class="profile-wrap"><button class="profile-mini user-initial" id="profileBtn" aria-label="Conta do usuário">?</button><div class="profile-menu hidden" id="profileMenu"><button id="accountBtn">Minha conta</button><button id="loginMenuBtn">Entrar / Criar conta</button><button id="logoutBtn" class="hidden">Sair / Logout</button></div></div></div></header>
+<section class="view active" id="homeView">
+  <div class="hero"><div class="eyebrow">SEU ESPAÇO, SUA ROTINA</div><h2 id="heroGreeting">Bem-vindo!</h2><p>Um passo de cada vez. Você consegue.</p><div class="hero-bubble">✦</div></div>
+  <div class="metrics">
+    <div class="metric"><div class="metric-icon mi-purple">▦</div><div><small>Tarefas de hoje</small><strong id="totalCount">0</strong><em>na sua agenda</em></div></div>
+    <div class="metric"><div class="metric-icon mi-green">✓</div><div><small>Concluídas</small><strong id="doneCount">0</strong><em>bom trabalho!</em></div></div>
+    <div class="metric"><div class="metric-icon mi-orange">◷</div><div><small>Pendentes</small><strong id="pendingCount">0</strong><em>no seu ritmo</em></div></div>
+  </div>
+  <div class="grid">
+    <section class="panel tasks-panel"><div class="panel-head"><div><h3>Agenda de hoje</h3><p>Seus próximos compromissos</p></div><button class="link-btn" id="seeCalendar">Ver calendário →</button></div><div class="filters"><button class="filter active" data-filter="all">Todas</button><button class="filter" data-filter="pending">Pendentes</button><button class="filter" data-filter="done">Concluídas</button></div><div id="taskList" class="task-list"></div><div class="empty hidden" id="emptyTasks">Nenhuma tarefa nesta lista.</div></section>
+    <section class="panel quick-panel"><div class="panel-head"><div><h3>Adicionar rapidamente</h3><p>Escreva como você falaria</p></div><div class="spark">✦</div></div><form id="quickForm"><label class="form-label" for="quickText">O que você precisa fazer?</label><textarea id="quickText" placeholder="Ex.: Estudar programação hoje às 19h"></textarea><button class="primary full" type="submit">✦ Organizar com CALÊ</button></form><div class="example"><small>EXEMPLO</small><button id="exampleBtn">“Academia segunda, quarta e sexta às 16h30”</button></div><div class="note">♧ <span>Você confere os detalhes antes de adicionar à agenda.</span></div></section>
+  </div>
+</section>
+<section class="view" id="calendarView"><div class="panel calendar-panel"><div class="panel-head"><div><h3>Calendário</h3><p>Visualize e organize seus compromissos</p></div><button class="primary" id="calendarAdd">＋ Nova tarefa</button></div><div class="month-bar"><button class="circle-btn" id="prevMonth">‹</button><h2 id="monthTitle">Outubro 2026</h2><button class="circle-btn" id="nextMonth">›</button><span class="month-spacer"></span><span class="month-pill">VISÃO MENSAL</span></div><div class="calendar-grid" id="calendarGrid"></div><div class="selected-day"><h3 id="selectedDayTitle">Compromissos do dia</h3><div id="calendarTasks"></div></div></div></section>
+<section class="view" id="assistantView"><div class="assistant-layout"><div class="panel chat-panel"><div class="chat-head"><div class="ai-icon">✦</div><div><b>Cacá</b><small><span class="online"></span>Sua assistente de organização</small></div><span class="beta">BETA</span></div><div class="messages" id="chatMessages"><div class="bubble" id="chatWelcome">Olá! Eu sou a Cacá 👋<br>Me conte o que você precisa organizar ou excluir. Posso ajudar a transformar sua mensagem em uma tarefa e localizar itens da sua agenda para remoção.</div></div><form class="compose" id="chatForm"><input id="chatInput" placeholder="Digite sua tarefa ou peça para excluir..." autocomplete="off"><button class="send" aria-label="Enviar">➤</button></form></div><aside class="panel assistant-info"><div class="spark" style="width:47px;height:47px;font-size:26px">✦</div><h3>Organização mais natural</h3><p>Escreva sua tarefa com suas próprias palavras. O protótipo identifica detalhes básicos, ajuda a localizar tarefas para exclusão e pede sua confirmação antes de alterar a agenda.</p><div class="step"><span>1</span><div><b>Descreva</b><small>Adicione ou peça para excluir uma tarefa</small></div></div><div class="step"><span>2</span><div><b>Confira</b><small>Revise os dados ou escolha a tarefa encontrada</small></div></div><div class="step"><span>3</span><div><b>Confirme</b><small>A agenda só muda depois da sua confirmação</small></div></div><div class="demo">Este protótipo demonstra a experiência. A interpretação é simulada localmente e não usa uma API de IA externa.</div></aside></div></section>
+<section class="view" id="statsView"><div class="panel stats-box"><div class="panel-head"><div><h3>Seu progresso</h3><p>Acompanhe como você está organizando sua rotina</p></div></div><div class="stats-cards"><div><small>Total de tarefas</small><strong id="statsTotal">0</strong></div><div><small>Concluídas</small><strong id="statsDone">0</strong></div><div><small>Em aberto</small><strong id="statsOpen">0</strong></div></div><div class="progress"><div id="progressFill"></div></div><p id="progressText">Comece adicionando uma tarefa para acompanhar seu progresso.</p></div></section>
+<section class="view" id="accountView">
+  <div class="account-layout">
+    <section class="panel account-panel">
+      <div class="panel-head"><div><h3>Seu perfil</h3><p>Atualize suas informações e a foto da conta</p></div><div class="spark">♙</div></div>
+      <form id="accountForm" class="account-form">
+        <div class="account-photo-row">
+          <div class="avatar account-avatar-preview user-initial" id="accountAvatarPreview">?</div>
+          <div class="account-photo-copy"><b>Foto do perfil</b><small>JPG, PNG ou WebP. A imagem será compactada antes de salvar.</small><div class="account-photo-actions"><label class="secondary file-button" for="accountPhotoInput">Escolher foto</label><input class="hidden" id="accountPhotoInput" type="file" accept="image/png,image/jpeg,image/webp"><button class="secondary" id="removeAvatarButton" type="button">Remover</button></div></div>
+        </div>
+        <label for="accountName">Nome</label><input id="accountName" type="text" maxlength="120" autocomplete="name" required>
+        <label for="accountEmail">E-mail da conta</label><input id="accountEmail" type="email" disabled>
+        <label for="accountPhone">Telefone com código do país</label><input id="accountPhone" type="tel" maxlength="24" autocomplete="tel" placeholder="+55 31 99999-9999">
+        <label class="account-toggle" for="accountSmsAlerts"><input id="accountSmsAlerts" type="checkbox"><span><b>Quero receber alertas por SMS</b><small>Guarda sua preferência para quando o envio estiver conectado.</small></span></label>
+        <p class="account-note">Seu telefone e sua preferência ficam salvos na conta. O envio de SMS ainda precisa ser conectado a um provedor de mensagens.</p>
+        <div class="account-error" id="accountError" role="status"></div>
+        <button class="primary" id="accountSaveButton" type="submit">Salvar alterações</button>
+      </form>
+    </section>
+    <section class="panel password-panel" id="passwordPanel">
+      <div class="panel-head"><div><h3>Alterar senha</h3><p>Confirme sua senha atual para continuar</p></div></div>
+      <form id="passwordForm" class="account-form">
+        <label for="currentPassword">Senha atual</label><input id="currentPassword" type="password" autocomplete="current-password" required>
+        <label for="newPassword">Nova senha</label><input id="newPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+        <div class="password-strength" id="accountPasswordStrength"><div class="password-strength-track" id="accountPasswordMeter" role="meter" aria-label="Força estimada da senha" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span id="accountPasswordBar"></span></div><p class="password-strength-copy"><b id="accountPasswordLabel">Digite uma senha</b><span id="accountPasswordHint">A força é estimada pelo comprimento e por padrões comuns.</span></p></div>
+        <label for="confirmPassword">Confirmar nova senha</label><input id="confirmPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password" required>
+        <p class="account-note">Use pelo menos 8 caracteres. Uma frase exclusiva com 15 ou mais caracteres tende a ser mais forte; não é necessário misturar tipos de caracteres.</p>
+        <div class="account-error" id="passwordError" role="status"></div>
+        <button class="primary" id="passwordSaveButton" type="submit">Atualizar senha</button>
+      </form>
+    </section>
+  </div>
+</section>
+</main></div>
+<div class="backdrop hidden" id="taskModal"><div class="modal"><button class="close" id="closeModal">×</button><div class="eyebrow">NOVA TAREFA</div><h2>Vamos organizar isso?</h2><p class="intro">Confira os detalhes antes de salvar.</p><form id="taskForm"><label for="taskTitle">Atividade</label><input id="taskTitle" required placeholder="Ex.: Estudar programação"><div class="form-row"><div><label for="taskDate">Data</label><input id="taskDate" type="date" required></div><div><label for="taskTime">Horário</label><input id="taskTime" type="time" value="16:30"></div></div><label for="taskCategory">Categoria</label><select id="taskCategory"><option>Estudos</option><option>Saúde</option><option>Financeiro</option><option>Casa</option><option>Compras</option><option>Carro</option><option>Compromissos</option><option>Trabalho</option><option>Pessoal</option></select><div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancelar</button><button class="primary" type="submit">Confirmar tarefa</button></div></form></div></div>
+
+<div class="toast hidden" id="toast"></div>
+<div class="auth-screen hidden" id="authScreen"><div class="auth-card">
+<button class="auth-close" id="authClose" type="button" aria-label="Fechar janela">×</button>
+<div class="auth-brand"><img class="brand-logo" src="./logo-cale.png" data-logo-light="./logo-cale.png" data-logo-dark="./logo-cale-dark.png" alt="Logo CALÊ: calendário com check"></div>
+<div class="eyebrow" id="authEyebrow">SUA ROTINA, SEU ESPAÇO</div><h2 id="authTitle">Entre na sua conta</h2><p class="intro" id="authIntro">Acesse sua agenda pessoal.</p>
+<form id="authForm"><div id="nameField" class="hidden"><label for="authName">Nome</label><input id="authName" autocomplete="name" placeholder="Como podemos te chamar?"></div>
+<label for="authEmail">E-mail</label><input id="authEmail" type="email" required autocomplete="email" placeholder="voce@exemplo.com">
+<label for="authPassword">Senha</label><input id="authPassword" type="password" required minlength="4" maxlength="128" autocomplete="current-password" placeholder="Sua senha">
+<div class="password-strength hidden" id="signupPasswordStrength"><div class="password-strength-track" id="signupPasswordMeter" role="meter" aria-label="Força estimada da senha" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span id="signupPasswordBar"></span></div><p class="password-strength-copy"><b id="signupPasswordLabel">Digite uma senha</b><span id="signupPasswordHint">Prefira uma frase longa e exclusiva.</span></p></div>
+<div class="auth-error" id="authError" role="status"></div><button class="secondary resend-login hidden" id="resendLoginVerification" type="button">Reenviar código de confirmação</button><button class="primary full" id="authSubmit" type="submit">Entrar</button></form>
+<form id="verifyEmailForm" class="hidden verify-email-form"><p id="verifyEmailInfo" class="verify-email-info"></p><label for="verifyEmailAddress">E-mail</label><input id="verifyEmailAddress" type="email" readonly><label for="verifyEmailCode">Código de confirmação</label><input id="verifyEmailCode" type="text" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="one-time-code" placeholder="00000000" required><div class="auth-error" id="verifyEmailError" role="status"></div><button class="primary full" id="verifyEmailSubmit" type="submit">Confirmar e-mail</button><button class="secondary resend-code" id="resendVerification" type="button">Enviar outro código</button><button class="auth-switch" id="backToAuth" type="button">Voltar ao login</button></form>
+<button class="auth-switch" id="authSwitch" type="button">Ainda não tem conta? Criar cadastro</button>
+<p class="note" id="authNote">A conta e os compromissos são salvos no banco MySQL configurado para o CALÊ.</p>
+</div></div>
+<script src="./script.js" defer></script>
+</body>
+</html>

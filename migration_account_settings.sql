@@ -1,0 +1,6 @@
+USE siap_db;
+
+ALTER TABLE users
+  ADD COLUMN phone VARCHAR(20) NULL,
+  ADD COLUMN sms_alerts TINYINT(1) NOT NULL DEFAULT 0,
+  ADD COLUMN avatar_data MEDIUMTEXT NULL;
